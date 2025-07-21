@@ -47,6 +47,45 @@ public class ElectionTurn {
         this.candidates = candidates;
     }
 
+    public Vote summarize(){
+        Vote vote = null;
+        HashMap<Candidate, Integer> newVotesForCandidate = new HashMap<>();
+
+        for (int i = 0; i < getVotes().size(); i++) {
+            for (Map.Entry<Candidate, Integer> entry : getVotes().get(i).getVotesForCandidate().entrySet()) {
+                Candidate key = entry.getKey();
+                Integer value = entry.getValue();
+
+                //vote = new Vote(newVotesForCandidate, null); -- better out of the loop
+                newVotesForCandidate.merge(key, value, Integer::sum);
+            }
+        }
+
+        vote = new Vote(newVotesForCandidate, null);
+
+        return vote;
+    }
+
+    public Vote summarize(List<String> location){
+        Vote vote = null;
+        HashMap<Candidate, Integer> newVotesForCandidate = new HashMap<>();
+        List<Vote> filteredList = Vote.filterByLocation(getVotes(), location);
+
+        for (int i = 0; i < filteredList.size(); i++) {
+            for (Map.Entry<Candidate, Integer> entry : filteredList.get(i).getVotesForCandidate().entrySet()) {
+                Candidate key = entry.getKey();
+                Integer value = entry.getValue();
+
+                //vote = new Vote(newVotesForCandidate, null); -- better out of the loop
+                newVotesForCandidate.merge(key, value, Integer::sum);
+            }
+        }
+
+        vote = new Vote(newVotesForCandidate, location);
+
+        return vote;
+    }
+
     public Candidate winner() throws NoWinnerException {
         Vote vote;
         Vote summaryVote;
@@ -54,7 +93,8 @@ public class ElectionTurn {
 
         for (int j = 0; j < votes.size(); j++) {
             vote = votes.get(j);
-            summaryVote = vote.summarize(votes);
+            summaryVote = summarize();
+            //summaryVote = vote.summarize(votes);
              for (int i = 0; i < candidates.size(); i++) {
                  if(summaryVote.percentage(candidates.get(i)) > 50){
                         winner = candidates.get(i);
@@ -80,7 +120,8 @@ public class ElectionTurn {
         
         for (int i = 0; i < votes.size(); i++) {
             vote = votes.get(i);
-            summaryVote = vote.summarize(votes);
+            //summaryVote = vote.summarize(votes);
+            summaryVote = summarize();
         }
         
         for (int j = 0; j < candidates.size(); j++) {

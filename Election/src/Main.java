@@ -25,15 +25,62 @@ public class Main {
 
        //System.out.println(vote.summarize(votes).percentage(candidate));
        //System.out.println(electionTurn.winner());
-
+        //electionTurn.runoffCandidates();
 
         //electionTurn.runoffCandidates();
 
         //System.out.println(electionTurn.runoffCandidates());
-        election.populate();
+        //election.populate();
         //System.out.println(vote.summarize(votes));
 
         //System.out.println(electionTurn.runoffCandidates());
+
+        //System.out.println(vote.getLocation());
+        //Vote.filterByLocation(votes, vote.getLocation());
+        //System.out.println(vote.getLocation());
+
+        //System.out.println(votes);
+        //for (int i = 0; i < votes.size(); i++) {
+        //    System.out.println(votes.get(i).getLocation() + " loc");
+        //}
+
+        List<String> newLocation = new ArrayList<>();
+        //newLocation.add(0, "gm. Boleszkowice");
+        //newLocation.add(0, "myśliborski");
+        //newLocation.add(1, "gm. Boleszkowice");
+        //newLocation.add(0, "zachodniopomorskie");
+        //newLocation.add(1, "myśliborski");
+        //newLocation.add(1, "gm. Boleszkowice");
+        newLocation.add(0, "  gm. Boleszkowice,  zachodniopomorskie");
+        //System.out.println(newLocation);
+
+
+        //System.out.println(Vote.filterByLocation(votes, newLocation));
+
+        //electionTurn.runoffCandidates();
+        //System.out.println(electionTurn.summarize() + " from electionTurn");
+        //System.out.println(vote.summarize(votes, null) + " from vote");
+        //electionTurn.winner();
+        //System.out.println(electionTurn.runoffCandidates());
+        //election.populate();
+        System.out.println(electionTurn.summarize());
+        System.out.println(electionTurn.summarize(newLocation));
+
+        VoivodeshipMap voivodeshipMap = new VoivodeshipMap();
+        voivodeshipMap.saveToSvg("src/map.svg");
+
+
+        //System.out.println(voivodeshipMap.getStates());
+        ElectionTurn secondTurn = new ElectionTurn(electionTurn.runoffCandidates());
+        List<Vote> secondTourVotes = electionTurn.populate("src/2.csv");
+        election.populate();
+        System.out.println(election.getSecondTurn().summarize() + " normal summarization");
+        System.out.println(election.getSecondTurn().summarize(voivodeshipMap.getStates()));
+
+
+        //System.out.println(secondTurn.getVotes());
+        //System.out.println(electionTurn.summarize(voivodeshipMap.getStates()));
+        //electionTurn.summarize(voivodeshipMap.getStates());
     }
 
 }
