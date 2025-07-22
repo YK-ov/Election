@@ -120,11 +120,7 @@ public class Vote {
     public static List<Vote> filterByLocation(List<Vote> votes, List<String> location) {
         List<Vote> filteredVotes = new ArrayList<>();
         String wholeLine = "";
-        String gmina = "";
-        String powiat = "";
-        String wojewodztwo = "";
 
-        int locationSize = votes.size();
         String[] row;
 
         for (int i = 0; i < location.size(); i++) {
@@ -135,7 +131,7 @@ public class Vote {
            // System.out.println(location.get(i) + " location list" + i + " i");
         }
         wholeLine = wholeLine.substring(0, wholeLine.length() - 1);
-        System.out.println(wholeLine + "whole line");
+        //System.out.println(wholeLine + "whole line");
 
         String[] array = new String[wholeLine.length()];
         for (int i = 0; i < wholeLine.length(); i++) {
@@ -145,31 +141,6 @@ public class Vote {
         String lastThree = "";
         String lastTwo = "";
 
-        int wojewodztwaCount = 0;
-        int powiatyCount = 0;
-        int gminyCount = 0;
-
-        for (int i = 0; i < array.length; i++) {
-            lastThree = array[i].substring(array[i].length() - 3);
-            lastTwo = array[i].substring(array[i].length() - 2);
-            if (lastThree.equals("kie") && !lastTwo.equals("ki")) {
-                wojewodztwaCount++;
-            }
-            else if (lastTwo.equals("ki") && !lastThree.equals("kie")) {
-                powiatyCount++;
-            }
-            else {
-                gminyCount++;
-            }
-
-        }
-
-        System.out.println(wojewodztwaCount + " wojewodztwa count " + powiatyCount + " powiaty count " + gminyCount + " gminy count ");
-
-        String[] allWojewodztwa = new String[wojewodztwaCount];
-        String[] allPowiaty = new String[powiatyCount];
-        String[] allGminy = new String[gminyCount];
-
         List<String> allWojewodztwaList = new ArrayList<>();
         List<String> allPowiatyList = new ArrayList<>();
         List<String> allGminyList = new ArrayList<>();
@@ -177,52 +148,51 @@ public class Vote {
         for (int i = 0; i < array.length; i++) {
             lastThree = array[i].substring(array[i].length() - 3);
             lastTwo = array[i].substring(array[i].length() - 2);
-
             if (lastThree.equals("kie") && !lastTwo.equals("ki")) {
-
-                wojewodztwo = array[i].trim();
-
+                allWojewodztwaList.add(array[i].trim());
 
             }
             else if (lastTwo.equals("ki") && !lastThree.equals("kie")) {
-                powiat = array[i].trim();
+                allPowiatyList.add(array[i].trim());
             }
             else {
-                gmina = array[i].trim();
+                allGminyList.add(array[i].trim());
             }
 
         }
 
-        //System.out.println(wojewodztwo + " wojewodztwo " + powiat + " powiat " + gmina + " gmina");
-
         for (int i = 0; i < votes.size(); i++) {
-            //System.out.println(votes.get(i).getLocation().get(i) + " from votes"); -- number of lists and their elements
             for (int j = 0; j < votes.get(i).getLocation().size(); j++) {
-                if (gmina.equals(votes.get(i).getLocation().get(j)) && powiat.equals(votes.get(i).getLocation().get(j+1)) && wojewodztwo.equals(votes.get(i).getLocation().get(j+2)) && !wojewodztwo.isEmpty() && !powiat.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
+                if (!allWojewodztwaList.isEmpty() && !allPowiatyList.isEmpty() && !allGminyList.isEmpty()) {
+                    for (int allIndex = 0; allIndex < allGminyList.size(); allIndex++) {
+                        if (allGminyList.get(allIndex).contains(votes.get(i).getLocation().get(j))) {
+                            filteredVotes.add(votes.get(i));
+                        }
+                    }
                 }
-                else if (gmina.equals(votes.get(i).getLocation().get(j)) && powiat.equals(votes.get(i).getLocation().get(j+1)) && wojewodztwo.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
+                else if (allGminyList.isEmpty() && allPowiatyList.isEmpty()) {
+                    for (int allIndex = 0; allIndex < allWojewodztwaList.size(); allIndex++) {
+                        if (allWojewodztwaList.contains(votes.get(i).getLocation().get(j))) {
+                           filteredVotes.add(votes.get(i));
+                       }
+                    }
                 }
-                else if (gmina.equals(votes.get(i).getLocation().get(j)) && wojewodztwo.equals(votes.get(i).getLocation().get(j+2)) && powiat.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
+                 else if (allGminyList.isEmpty()) {
+                    for (int allIndex = 0; allIndex < allPowiatyList.size(); allIndex++) {
+                        if (allPowiatyList.get(allIndex).contains(votes.get(i).getLocation().get(j))) {
+                            filteredVotes.add(votes.get(i));
+                        }
+                    }
                 }
-                else if (powiat.equals(votes.get(i).getLocation().get(j)) && wojewodztwo.equals(votes.get(i).getLocation().get(j+1)) && gmina.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
-                }
-                else if (powiat.equals(votes.get(i).getLocation().get(j)) && gmina.isEmpty() && wojewodztwo.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
-
-                }
-                else if (gmina.equals(votes.get(i).getLocation().get(j)) && wojewodztwo.isEmpty() && powiat.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
-                }
-                else if (wojewodztwo.equals(votes.get(i).getLocation().get(j)) && gmina.isEmpty() && powiat.isEmpty()) {
-                    filteredVotes.add(votes.get(i));
-                }
-
+                else if (allPowiatyList.isEmpty()) {
+                    for (int allIndex = 0; allIndex < allGminyList.size(); allIndex++) {
+                        if (allGminyList.get(allIndex).contains(votes.get(i).getLocation().get(j))) {
+                            filteredVotes.add(votes.get(i));
+                        }
+                    }
                 }
             }
+        }
 
         return filteredVotes;
     }

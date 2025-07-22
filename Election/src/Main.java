@@ -16,7 +16,7 @@ public class Main {
 
         ElectionTurn electionTurn = new ElectionTurn(candidates);
         List<Vote> votes = electionTurn.populate("src/1.csv");
-
+        //System.out.println(vote + " right after");
 
         //System.out.println(vote.summarize(votes));
 
@@ -48,10 +48,10 @@ public class Main {
         //newLocation.add(0, "gm. Boleszkowice");
         //newLocation.add(0, "myśliborski");
         //newLocation.add(1, "gm. Boleszkowice");
-        //newLocation.add(0, "zachodniopomorskie");
+        newLocation.add(0, "zachodniopomorskie");
         //newLocation.add(1, "myśliborski");
         //newLocation.add(1, "gm. Boleszkowice");
-        newLocation.add(0, "  gm. Boleszkowice,  zachodniopomorskie");
+        //newLocation.add(0, "  gm. Boleszkowice, myśliborski, zachodniopomorskie");
         //System.out.println(newLocation);
 
 
@@ -63,20 +63,24 @@ public class Main {
         //electionTurn.winner();
         //System.out.println(electionTurn.runoffCandidates());
         //election.populate();
-        System.out.println(electionTurn.summarize());
-        System.out.println(electionTurn.summarize(newLocation));
+        //System.out.println(electionTurn.summarize());
+        //System.out.println(electionTurn.summarize(newLocation));
 
         VoivodeshipMap voivodeshipMap = new VoivodeshipMap();
         voivodeshipMap.saveToSvg("src/map.svg");
 
 
         //System.out.println(voivodeshipMap.getStates());
-        ElectionTurn secondTurn = new ElectionTurn(electionTurn.runoffCandidates());
-        List<Vote> secondTourVotes = electionTurn.populate("src/2.csv");
-        election.populate();
-        System.out.println(election.getSecondTurn().summarize() + " normal summarization");
-        System.out.println(election.getSecondTurn().summarize(voivodeshipMap.getStates()));
+        //ElectionTurn secondTurn = new ElectionTurn(electionTurn.runoffCandidates());
+        //List<Vote> secondTourVotes = electionTurn.populate("src/2.csv");
+        //election.populate();
 
+
+
+        //System.out.println(election.getSecondTurn().summarize() + " normal summarization");
+        //System.out.println(election.getSecondTurn().summarize(voivodeshipMap.getStates()));
+        //System.out.println(votes + " later");
+        System.out.println(Vote.filterByLocation(votes, newLocation));
 
         //System.out.println(secondTurn.getVotes());
         //System.out.println(electionTurn.summarize(voivodeshipMap.getStates()));
