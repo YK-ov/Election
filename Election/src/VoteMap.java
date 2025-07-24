@@ -2,12 +2,12 @@ import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
-public class VoivodeshipMap {
+public class VoteMap extends VoivodeshipMap {
+    private Vote votes;
+    private ElectionTurn electionTurn;
     private static final Map<String, String> voivodeshipPaths = new HashMap<>();
 
     static {
@@ -28,25 +28,29 @@ public class VoivodeshipMap {
         voivodeshipPaths.put("zachodniopomorskie", "M 24.391424,169.42485 C 24.391424,168.76337 20.375355,164.43741 15.46683,159.8116 C 10.558296,155.18582 6.5232955,150.64127 6.5001546,149.71262 C 6.4770235,148.784 9.0520215,145.4064 12.222376,142.20687 C 15.39274,139.0073 17.986669,135.78778 17.986669,135.05234 C 17.986669,134.31692 19.520512,130.75813 21.39522,127.14388 C 24.417869,121.31652 24.642501,120.05886 23.379422,116.03477 C 22.596043,113.53899 21.591346,109.0483 21.14678,106.0555 C 20.702195,103.0627 19.924718,97.893303 19.41905,94.567954 C 18.913383,91.242617 17.81244,87.341513 16.972527,85.898841 C 16.027728,84.276051 15.752096,81.163572 16.249672,77.736642 C 17.006944,72.521157 17.287035,72.19438 21.04291,72.1444 C 23.236863,72.11521 27.337614,71.259877 30.155707,70.243653 C 32.97381,69.227428 37.873456,67.61085 41.043809,66.651258 C 44.214163,65.691666 48.249163,63.920288 50.010475,62.71487 C 53.638671,60.231776 60.479234,58.296685 74.180477,55.877555 C 80.043216,54.842413 84.685167,53.265922 86.432086,51.71668 C 88.424907,49.949374 90.948369,49.222402 95.09017,49.222402 C 105.63343,49.222402 114.70589,43.657172 120.32755,33.741262 C 121.88272,30.998156 127.9713,27.456532 131.13194,27.456532 C 133.60549,27.456532 135.55073,32.679239 136.16224,40.962215 C 136.62224,47.192974 136.39704,47.933891 133.6894,49.098494 C 129.99324,50.688261 129.71311,55.536163 133.13097,58.762625 C 135.03446,60.559513 135.41233,62.212835 134.90008,66.503021 C 134.34241,71.173474 134.63925,72.155795 136.96293,73.329741 C 140.01319,74.870769 140.77788,80.661988 137.9311,80.661988 C 136.69882,80.661988 135.9818,83.052156 135.49434,88.784802 C 135.11445,93.25236 134.17088,97.10674 133.39754,97.350071 C 132.62417,97.593421 131.99143,99.340132 131.99143,101.23164 C 131.99143,105.67091 126.74046,109.68316 120.93058,109.68316 C 114.7852,109.68316 115.12598,113.48318 121.67283,117.9601 L 126.72565,121.41536 L 121.93906,125.82758 C 119.30643,128.25431 116.44197,130.2398 115.57358,130.2398 C 114.70519,130.2398 113.45575,131.57794 112.79704,133.21345 C 111.34412,136.82088 102.31534,142.7032 99.122238,142.12272 C 97.256663,141.78354 96.892031,140.72628 97.209446,136.57636 L 97.601618,131.44901 L 93.020347,131.44901 C 88.828247,131.44901 88.439051,131.74436 88.439051,134.9255 C 88.439051,137.85181 87.805536,138.52161 84.43607,139.15775 C 82.234443,139.57342 78.846445,139.91351 76.907201,139.91351 C 74.967967,139.91351 72.663733,140.72975 71.786665,141.72734 C 70.909617,142.72496 69.142443,143.54116 67.859607,143.54116 C 66.576757,143.54116 64.764216,144.49343 63.83171,145.65728 C 60.68171,149.58883 54.515391,151.77904 48.421999,151.13069 C 43.191153,150.57412 42.4722,150.83227 39.953407,154.17148 C 38.439559,156.17843 37.200944,158.61534 37.200944,159.58686 C 37.200944,162.28412 32.171539,167.72545 29.678455,167.72545 C 28.461449,167.72545 26.773999,168.37845 25.928562,169.17651 C 25.083145,169.9746 24.391424,170.08636 24.391424,169.42485 z ");
         voivodeshipPaths.put("lubuskie", "M 51.857582,266.76757 C 51.380988,266.0396 48.755079,265.64618 46.017696,265.89259 C 42.922578,266.17124 41.043809,265.82966 41.043809,264.9883 C 41.043809,264.24468 38.80647,263.00347 36.071953,262.23007 C 29.439481,260.35421 27.820369,258.3925 29.487694,254.25269 C 31.793809,248.52684 31.04657,244.58493 26.953334,240.88295 C 24.839762,238.97143 23.126503,236.82908 23.146101,236.12216 C 23.165719,235.41527 24.934844,232.66029 27.077539,230.00003 L 30.973315,225.16316 L 30.091897,212.46641 C 29.508645,204.06495 28.406816,198.18124 26.834932,195.07439 C 24.505447,190.47011 24.508413,190.31419 26.987324,187.02784 C 29.829802,183.25951 30.333678,176.23703 27.924757,173.96303 C 26.658065,172.76729 26.723278,172.22944 28.244999,171.32127 C 29.295888,170.69409 31.122631,170.17258 32.304413,170.1624 C 35.112115,170.1382 39.762854,164.50134 39.762854,161.1225 C 39.762854,159.66544 41.201845,157.19715 42.960599,155.63742 C 45.859521,153.06655 46.46469,152.9563 49.436588,154.45773 C 52.376607,155.94306 53.310358,155.80845 58.486712,153.1529 C 61.661225,151.52432 65.177081,149.23959 66.299712,148.07571 C 67.422347,146.91186 69.333812,145.95959 70.547404,145.95959 C 71.760986,145.95959 73.471527,145.14338 74.348575,144.14577 C 75.225633,143.14818 77.529877,142.33194 79.469101,142.33194 C 81.408355,142.33194 84.796343,141.99185 86.99798,141.57619 C 90.367436,140.94004 91.000961,140.27024 91.000961,137.34394 C 91.000961,135.10998 91.666117,133.86743 92.862023,133.86743 C 94.335526,133.86743 94.588026,135.18951 94.074496,140.21582 C 92.853274,152.16884 92.195314,154.31286 89.026145,156.66613 C 87.287854,157.95689 85.510548,160.689 85.076543,162.73749 C 84.642547,164.78596 83.492267,167.08499 82.520385,167.84641 C 80.359446,169.53938 80.214151,173.98807 82.256827,175.91635 C 83.127674,176.73843 83.707463,180.62605 83.634716,185.15518 C 83.553856,190.18888 84.097047,193.43534 85.159362,194.26761 C 86.357169,195.20605 86.521495,196.96635 85.758699,200.68813 C 85.180682,203.50831 84.682658,208.11713 84.651983,210.92997 C 84.602406,215.4743 85.240988,216.60531 90.381997,221.07874 C 93.56419,223.84772 96.521875,227.44499 96.954636,229.07271 C 97.661307,231.73059 98.304984,231.98986 103.27121,231.61698 C 109.95074,231.11549 111.00594,233.04598 108.00039,240.2689 C 105.88632,245.3494 103.81048,245.6536 103.81048,240.88295 C 103.81048,239.29881 103.21289,237.654 102.48252,237.2279 C 99.967536,235.76059 90.585747,238.14193 87.534801,241.02203 C 85.854527,242.6082 84.00319,243.90599 83.420734,243.90599 C 82.838278,243.90599 81.983714,246.13749 81.521721,248.86489 C 80.932865,252.34113 79.942809,254.0062 78.210381,254.43388 C 76.828462,254.77501 75.106445,256.85343 74.304005,259.14869 C 72.57943,264.08154 69.006543,264.60326 66.895927,260.2304 C 66.093424,258.56771 64.675116,257.20734 63.744132,257.20734 C 61.410805,257.20734 58.977141,259.70446 58.977141,262.09864 C 58.977141,263.97218 55.21805,268.09028 53.507818,268.09028 C 53.07648,268.09028 52.333878,267.49507 51.857582,266.76757 z ");
     }
-    //voivodeship = state
 
-    public List<String> getStates(){
-        List<String> states = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : voivodeshipPaths.entrySet()) {
-            String key = entry.getKey();
-            states.add(key);
-        }
 
-        return states;
+    public VoteMap(Vote votes, ElectionTurn electionTurn) {
+        this.votes = votes;
+        this.electionTurn = electionTurn;
     }
 
-    protected Color setColor(String stateName){
-
-        return Color.BLACK;
+    @Override
+    public List<String> getStates() {
+        return super.getStates();
     }
 
+    @Override
+    protected Color setColor(String stateName) {
 
-    public void saveToSvg(String filePath) {
+        return super.setColor(stateName);
+    }
+
+    public Color winnerColor(String stateName) {
+        return Color.red;
+    }
+
+    public void saveToSvgOverriden(String filePath) {
         StringBuilder svgBuilder = new StringBuilder();
 
 
@@ -72,4 +76,86 @@ public class VoivodeshipMap {
             System.err.println("Error saving file: " + e.getMessage());
         }
     }
+
+
+    @Override
+    public void saveToSvg(String filePath) {
+        Integer[] values;
+        SelectableMap savedMap = new SelectableMap();
+
+        for (int i = 0; i < electionTurn.getVotes().size(); i++){
+            values = electionTurn.getVotes().get(i).getVotesForCandidate().values().toArray(new Integer[electionTurn.getVotes().get(i).getVotesForCandidate().size()]); //size of array = size of map
+            for (int j = 0; j < values.length; j++){
+                //System.out.println(values[j]); // -- to uncomment
+                for (int k = j+1; k < values.length; k++){
+                    if(values[j] > values[k]){
+                        System.out.println(values[j] + " " + values[k] + " j is greater");
+
+                        String wholeLine = "";
+                        String[] row;
+
+                        for (int firstIndex = 0; firstIndex < electionTurn.getVotes().get(i).getLocation().size(); firstIndex++) {
+                            row = electionTurn.getVotes().get(i).getLocation().get(firstIndex).split(",");
+                            for (int secondIndex = 0; secondIndex < row.length; secondIndex++) {
+                                wholeLine = wholeLine + row[secondIndex] + ",";
+                            }
+                            // System.out.println(location.get(i) + " location list" + i + " i");
+                        }
+                        wholeLine = wholeLine.substring(0, wholeLine.length() - 1);
+                        //System.out.println(wholeLine + "whole line");
+
+                        String[] array = new String[wholeLine.length()];
+                        for (int firstIndex = 0; firstIndex < wholeLine.length(); firstIndex++) {
+                            array = wholeLine.split(",");
+                        }
+
+                        String lastThree = "";
+                        String lastTwo = "";
+
+                        List<String> allWojewodztwaList = new ArrayList<>();
+
+                        for (int firstIndex = 0; firstIndex < array.length; firstIndex++) {
+                            lastThree = array[firstIndex].substring(array[firstIndex].length() - 3);
+                            lastTwo = array[firstIndex].substring(array[firstIndex].length() - 2);
+                            if (lastThree.equals("kie") && !lastTwo.equals("ki")) {
+                                allWojewodztwaList.add(array[firstIndex].trim());
+
+                            }
+                        }
+
+                        System.out.println(allWojewodztwaList + " " + allWojewodztwaList.size() + " size");
+                        for (int firstIndex = 0; firstIndex < allWojewodztwaList.size(); firstIndex++) {
+                            //savedMap.select(allWojewodztwaList.get(firstIndex));
+                            //savedMap.saveToSvg("src/map.svg");
+
+
+
+                            super.saveToSvg(filePath);
+                        }
+                        //savedMap.select(allWojewodztwaList.get();
+                    }
+                    else if(values[k] > values[j]){
+                        System.out.println(values[k] + " " + values[j] + " k is greater");
+
+
+                        //System.out.println("k is greater");
+                    }
+                    else if (values[j].equals(values[k])){
+                        System.out.println(values[j] + " same value");
+
+
+                        //System.out.println("same value");
+                    }
+                }
+            }
+        }
+
+
+
+        super.saveToSvg(filePath);
+    }
+
+
+
+
 }

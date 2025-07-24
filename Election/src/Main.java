@@ -66,25 +66,36 @@ public class Main {
         //System.out.println(electionTurn.summarize());
         //System.out.println(electionTurn.summarize(newLocation));
 
-        VoivodeshipMap voivodeshipMap = new VoivodeshipMap();
-        voivodeshipMap.saveToSvg("src/map.svg");
+        //VoivodeshipMap voivodeshipMap = new VoivodeshipMap();
+        //voivodeshipMap.saveToSvg("src/map.svg");
 
-
-        //System.out.println(voivodeshipMap.getStates());
-        //ElectionTurn secondTurn = new ElectionTurn(electionTurn.runoffCandidates());
-        //List<Vote> secondTourVotes = electionTurn.populate("src/2.csv");
-        //election.populate();
-
-
-
-        //System.out.println(election.getSecondTurn().summarize() + " normal summarization");
-        //System.out.println(election.getSecondTurn().summarize(voivodeshipMap.getStates()));
-        //System.out.println(votes + " later");
-        System.out.println(Vote.filterByLocation(votes, newLocation));
+        //System.out.println(Vote.filterByLocation(votes, newLocation));
 
         //System.out.println(secondTurn.getVotes());
         //System.out.println(electionTurn.summarize(voivodeshipMap.getStates()));
         //electionTurn.summarize(voivodeshipMap.getStates());
+
+        //System.out.println(election.getSecondTurn().summarize() + " normal summarization");
+
+        VoivodeshipMap voivodeshipMap = new VoivodeshipMap();// --uncomm
+        //next lines for showcase (19, second tour)
+        //System.out.println(voivodeshipMap.getStates());
+        ElectionTurn secondTurn = new ElectionTurn(electionTurn.runoffCandidates()); // --uncomm
+        List<Vote> secondTourVotes = electionTurn.populate("src/2.csv"); // -- uncomm
+        election.populate(); // --uncomm
+        //System.out.println(election.getSecondTurn().summarize(voivodeshipMap.getStates()));
+        Vote secondTourAllStates = election.getSecondTurn().summarize(voivodeshipMap.getStates()); // -uncomm
+        System.out.println(secondTourAllStates + " from object"); // --uncomm !!!
+        //System.out.println(election.getSecondTurn() + " getSecondTurn");
+
+        SelectableMap selectableMap = new SelectableMap(); // -uncomm
+        //selectableMap.select("lubelskie");
+        //voivodeshipMap.saveToSvg("src/map.svg"); // -uncomm
+
+        VoteMap voteMap = new VoteMap(secondTourAllStates, election.getSecondTurn()); // --uncomm
+        voteMap.saveToSvg("src/map.svg"); // --uncomm
+
+
     }
 
 }

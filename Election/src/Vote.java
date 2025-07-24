@@ -160,20 +160,28 @@ public class Vote {
             }
 
         }
+        List<String> locations = new ArrayList<>();
+        Map<Candidate, Integer> votesForCandidate = new HashMap<>();
+        Vote vote = null;
+
+        Boolean definedByGminy = false;
+        Boolean definedByPowiaty = false;
+        Boolean definedByWojewodztwa = false;
+
 
         for (int i = 0; i < votes.size(); i++) {
             for (int j = 0; j < votes.get(i).getLocation().size(); j++) {
                 if (!allWojewodztwaList.isEmpty() && !allPowiatyList.isEmpty() && !allGminyList.isEmpty()) {
                     for (int allIndex = 0; allIndex < allGminyList.size(); allIndex++) {
                         if (allGminyList.get(allIndex).contains(votes.get(i).getLocation().get(j))) {
-                            filteredVotes.add(votes.get(i));
+                            filteredVotes.add(vote);
                         }
                     }
                 }
                 else if (allGminyList.isEmpty() && allPowiatyList.isEmpty()) {
                     for (int allIndex = 0; allIndex < allWojewodztwaList.size(); allIndex++) {
                         if (allWojewodztwaList.contains(votes.get(i).getLocation().get(j))) {
-                           filteredVotes.add(votes.get(i));
+                            filteredVotes.add(votes.get(i));
                        }
                     }
                 }
@@ -194,7 +202,11 @@ public class Vote {
             }
         }
 
-        return filteredVotes;
+        Set<Vote> voteSet = new HashSet<>(filteredVotes);
+
+        List<Vote> distinctFilteredVotes = new ArrayList<>(voteSet);
+
+        return distinctFilteredVotes;
     }
 
 
